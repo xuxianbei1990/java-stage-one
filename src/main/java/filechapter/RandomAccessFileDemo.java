@@ -45,9 +45,12 @@ public class RandomAccessFileDemo {
     public static void main(String[] args) throws IOException {
         File file = new File(FileConstant.DIR_PATH);
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
         }
-//        file = new File(FileConstant.OUTFILEPATH);
+        file = new File(FileConstant.OUTFILEPATH);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         for (int i = 0; i < 5; i++) {
             new Thread(new RunableFile(file, i)).start();
         }
