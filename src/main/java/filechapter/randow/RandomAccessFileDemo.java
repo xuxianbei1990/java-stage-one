@@ -50,10 +50,10 @@ public class RandomAccessFileDemo {
 
     public static void main(String[] args) throws IOException {
         //并发写入
-        ConcurrencyWrite();
+//        ConcurrencyWrite();
 
         //内存映射写入
-//        MappedWrite();
+        MappedWrite();
 
     }
 

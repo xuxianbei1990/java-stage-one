@@ -30,7 +30,9 @@ public class MappedFile {
         this.file = new File(fileName);
         ensureDirOk(file.getParent());
         try {
+            //创建随机读写的通道
             this.fileChannel = new RandomAccessFile(this.file, "rw").getChannel();
+            //进行内存映射
             this.mappedByteBuffer = this.fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, fileSize);
         } catch (IOException e) {
             e.printStackTrace();
