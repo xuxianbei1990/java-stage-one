@@ -1,9 +1,14 @@
-package filechapter;
+package filechapter.randow;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 
+import filechapter.FileConstant;
 import org.apache.commons.lang3.CharSet;
 
 //http://blog.csdn.net/bobo8945510/article/details/52958738
@@ -42,15 +47,37 @@ public class RandomAccessFileDemo {
         }
     }
 
+
     public static void main(String[] args) throws IOException {
+        //并发写入
+        ConcurrencyWrite();
+
+        //内存映射写入
+//        MappedWrite();
+
+    }
+
+    private static void MappedWrite() {
+        MappedFile mappedFile = new MappedFile("E:\\整理\\Java\\delete.txt", 1024 * 10);
+        String test = "测试HTML_TO_PDF";
+        mappedFile.appendMessage(test.getBytes(Charset.forName("UTF-8")));
+        mappedFile.destroy();
+    }
+
+    /**
+     * 并发写入
+     *
+     * @throws IOException
+     */
+    private static void ConcurrencyWrite() throws IOException {
         File file = new File(FileConstant.DIR_PATH);
         if (!file.exists()) {
             file.mkdirs();
         }
         file = new File(FileConstant.OUTFILEPATH);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
+//        if (!file.exists()) {
+//            file.createNewFile();
+//        }
         for (int i = 0; i < 5; i++) {
             new Thread(new RunableFile(file, i)).start();
         }
